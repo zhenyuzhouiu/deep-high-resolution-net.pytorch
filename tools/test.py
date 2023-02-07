@@ -37,6 +37,7 @@ def parse_args():
     # general
     parser.add_argument('--cfg',
                         help='experiment configure file name',
+                        default="experiments/coco/hrnet/w48_384x288_adam_lr1e-3.yaml",
                         required=True,
                         type=str)
 
@@ -95,6 +96,7 @@ def main():
         logger.info('=> loading model from {}'.format(model_state_file))
         model.load_state_dict(torch.load(model_state_file))
 
+    # For multiple GPU
     model = torch.nn.DataParallel(model, device_ids=cfg.GPUS).cuda()
 
     # define loss function (criterion) and optimizer
